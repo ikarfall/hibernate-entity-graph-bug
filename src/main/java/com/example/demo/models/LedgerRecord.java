@@ -1,11 +1,11 @@
 package com.example.demo.models;
 
 import java.util.List;
-import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -17,7 +17,6 @@ import lombok.Setter;
 import lombok.Singular;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Builder(toBuilder = true)
@@ -27,14 +26,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Setter
 public class LedgerRecord {
   @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(
-      name = "UUID",
-      strategy = "org.hibernate.id.UUIDGenerator"
-  )
-  private UUID id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   private BudgetRecord budgetRecord;
 
   @OneToMany(mappedBy = "ledgerRecord", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

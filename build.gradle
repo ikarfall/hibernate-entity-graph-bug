@@ -1,4 +1,7 @@
 plugins {
+    // to reproduce issue with ignored EntityGraph annotation switch spring boot version with 2.3.2 to 2.3.3
+    // which switches hibernate 4.5.18 to 4.5.20
+    // or you can change hibernate version bellow in dependencies section.
     id 'org.springframework.boot' version '2.3.3.RELEASE'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
@@ -19,7 +22,14 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+//    {
+//        // to remove fibernate that came with new spring
+//        exclude group: "org.hibernate", module: "hibernate-core"
+//    }
+//    // to add old hibernate
+//    implementation "org.hibernate:hibernate-core:5.4.18.Final"
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

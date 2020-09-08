@@ -40,20 +40,20 @@ public class LedgerRecordRepositoryTest {
     var ledgerRecord = LedgerRecord.builder()
         .budgetRecord(budgetRecord)
         .ledgerRecordItem(LedgerRecordItem.builder()
-//            .ledgerRecord(ledgerRecord)
             .financeEntity(client)
             .build())
         .ledgerRecordItem(LedgerRecordItem.builder()
-//            .ledgerRecord(ledgerRecord)
             .financeEntity(vendor)
             .build())
         .trigger(trigger).build();
-
-
     ledgerRecord.getLedgerRecordItems().forEach(i -> i.setLedgerRecord(ledgerRecord));
+
     ledgerRecordRepository.save(ledgerRecord);
 
+    //this line write warning system out and you can see one extra select of fetching trigger entity
+    // that is not specified in @EntityGraph
+    // you can switch hibernate version in gradle to see that this issue appeared in hibernate 4.5.20
     var ledgerRecords = ledgerRecordRepository.findAll();
-    System.out.println(ledgerRecords);
+
   }
 }
